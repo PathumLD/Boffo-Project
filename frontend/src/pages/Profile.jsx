@@ -25,22 +25,22 @@ export default function Profile() {
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred /
-        snapshot.totalBytes) *100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImagePercent(Math.round(progress));
-    }); 
-    (error) => {
-      setImageError(true)
-    },
-    () => {
-      getDownloadURL(uploadTask.snapshot.ref).then
-      ((doawnloadURL) => {
-        setFormData({ ...formData, profilePicture:doawnloadURL});
-        })
-    }
-  }
+      },
+      (error) => {
+        setImageError(true);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>
+          setFormData({ ...formData, profilePicture: downloadURL })
+        );
+      }
+    );
+  };
 
   return (
     <div className='max-w-lg p-3 mx-auto'>
@@ -53,7 +53,7 @@ export default function Profile() {
           onChange={(e) => setImage(e.target.files[0])} 
         />
         <img 
-          src= {currentUser.profilePicture} 
+          src= {formData.profilePicture || currentUser.profilePicture} 
           alt="profile" 
           className='self-center object-cover w-32 h-32 mt-2 rounded-full cursor-pointer'
           onClick = {() => fileRef.current.click()}
