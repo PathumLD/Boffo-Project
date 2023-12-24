@@ -16,6 +16,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.0",
+    "react-social-login-buttons": "^3.9.1",
+    "reactjs-social-login": "^2.6.3",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
