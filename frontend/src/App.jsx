@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './pages/Dashboard';
 import AddStudent from './pages/students/AddStudent';
 import UpdateStudent from './pages/students/UpdateStudent';
+import Dashboard2 from './pages/Dashboard2';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path='/profile' element={<Profile />} />
           </Route>
           <Route path='/dashboard' element = {<Dashboard />} />
+          <Route path='/dashboard2' element = {<Dashboard2 />} />
           <Route path='/addStudent' element = {<AddStudent />} />
           <Route path='/updateStudent/:id' element = {<UpdateStudent />} />
         </Routes>

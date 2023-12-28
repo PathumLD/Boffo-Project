@@ -33,7 +33,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate('/');
+      navigate('/dashboard');
       
     } catch (error) {
       dispatch(signInFailure(error));
@@ -41,9 +41,9 @@ export default function SignIn() {
   };
 
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl text-center font-bold my-8'>Sign In</h1>
-      <p className='text-red-700 my-5 font-bold text-center'>
+    <div className='max-w-lg p-3 mx-auto'>
+      <h1 className='my-8 text-3xl font-bold text-center'>Sign In</h1>
+      <p className='my-5 font-bold text-center text-red-700'>
         {error ? error || 'Something went wrong!. Please check again.' : ''}
       </p>
       <form onSubmit = {handleSubmit} className='flex flex-col gap-4 '>
@@ -52,18 +52,18 @@ export default function SignIn() {
           type ="email" 
           placeholder = "Email" 
           id = "email" 
-          className='bg-slate-100 p-3 rounded-lg' 
+          className='p-3 rounded-lg bg-slate-100' 
           onChange = {handleChange}
         />
         <input 
           type ="password" 
           placeholder = "Password" 
           id = "password" 
-          className='bg-slate-100 p-3 rounded-lg' 
+          className='p-3 rounded-lg bg-slate-100' 
           onChange = {handleChange}
         />
 
-        <button disabled={loading} className='bg-blue-700 rounded-lg py-2 text-white font-bold uppercase hover:opacity-90 disabled:opacity-50'>
+        <button disabled={loading} className='py-2 font-bold text-white uppercase bg-blue-700 rounded-lg hover:opacity-90 disabled:opacity-50'>
           {loading ? 'Loading...' : 'Sign In'}
           </button>
           <OAuth />
@@ -73,7 +73,7 @@ export default function SignIn() {
       <div className='flex gap-2 mt-5'>
         <p>Don't have an account?</p>
         <Link to = '/sign-up'>
-          <span className='text-blue-500 font-semibold'>Sign Up</span>
+          <span className='font-semibold text-blue-500'>Sign Up</span>
         </Link>
       </div>
       
