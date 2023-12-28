@@ -6,9 +6,7 @@ import { signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function FbAuth() {
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // ... (existing code remains unchanged)
 
   const handleFacebookClick = async () => {
     try {
@@ -19,9 +17,6 @@ export default function FbAuth() {
       // Open the Facebook authentication popup
       const result = await signInWithPopup(auth, provider);
 
-      // Assuming Facebook provides necessary user data like name, email, and photo URL
-    //   const { displayName, email, photoURL } = result.user;
-        
       // Make a POST request to your backend to handle Facebook authentication
       const res = await fetch('/api/auth/facebook', {
         method: 'POST',
@@ -50,11 +45,11 @@ export default function FbAuth() {
 
   return (
     <button
-    type='button'
-    onClick={handleFacebookClick}
-    className='bg-blue-800 text-white rounded-lg p-3 uppercase hover:opacity-95'
-  >
-    Continue with Facebook
-  </button>
-  )
+      type='button'
+      onClick={handleFacebookClick}
+      className='p-3 text-white uppercase bg-blue-800 rounded-lg hover:opacity-95'
+    >
+      Continue with Facebook
+    </button>
+  );
 }

@@ -7,6 +7,9 @@ import Profile from './pages/Profile';
 import About from './pages/About';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
+import Dashboard from './pages/Dashboard';
+import AddStudent from './pages/students/AddStudent';
+import UpdateStudent from './pages/students/UpdateStudent';
 
 export default function App() {
   return (
@@ -23,6 +26,9 @@ export default function App() {
           <Route element={<PrivateRoute />}>
             <Route path='/profile' element={<Profile />} />
           </Route>
+          <Route path='/dashboard' element = {<Dashboard />} />
+          <Route path='/addStudent' element = {<AddStudent />} />
+          <Route path='/updateStudent/:id' element = {<UpdateStudent />} />
         </Routes>
       </BrowserRouter>
     </>

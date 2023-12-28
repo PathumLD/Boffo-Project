@@ -79,7 +79,8 @@ export const google = async (req, res, next) => {
             expires: expiryDate,
           })
           .status(200)
-          .json(rest);
+          // .json(rest)
+          .redirect('/dashboard');
       }
     } catch (error) {
       next(error);

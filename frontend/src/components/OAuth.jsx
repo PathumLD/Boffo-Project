@@ -27,7 +27,7 @@ export default function OAuth() {
       const data = await res.json();
       console.log(data);
       dispatch(signInSuccess(data));
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       console.log('could not login with google', error);
     }
@@ -36,7 +36,7 @@ export default function OAuth() {
     <button
       type='button'
       onClick={handleGoogleClick}
-      className='bg-red-700 text-white rounded-lg p-3 uppercase hover:opacity-95'
+      className='p-3 text-white uppercase bg-red-700 rounded-lg hover:opacity-95'
     >
       Continue with google
     </button>
