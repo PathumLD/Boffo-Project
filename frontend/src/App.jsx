@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -13,6 +13,7 @@ import UpdateStudent from './pages/students/UpdateStudent';
 import Dashboard2 from './pages/Dashboard2';
 
 export default function App() {
+  const user = false;
   return (
     <>
       <BrowserRouter>
@@ -22,7 +23,7 @@ export default function App() {
         <Routes>
           <Route path='/' element = {<Home />} />
           <Route path='/about' element = {<About />} />
-          <Route path='/sign-in' element = {<SignIn />} />
+          <Route path='/sign-in' element = {user ? <Navigate to='/dashboard' /> : <SignIn />} />
           <Route path='/sign-up' element = {<SignUp />} />
           <Route element={<PrivateRoute />}>
             <Route path='/profile' element={<Profile />} />

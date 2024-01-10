@@ -88,55 +88,48 @@ export const google = async (req, res, next) => {
   };
 
 
-// Fb Authentication
-
+// Facebook Authentication
 export const facebook = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      const { password: hashedPassword, ...rest } = user._doc;
-      const expiryDate = new Date(Date.now() + 3600000); // 1 hour
-      res
-        .cookie('access_token', token, {
-          httpOnly: true,
-          expires: expiryDate,
-        })
-        .status(200)
-        .json(rest);
-    } else {
-      const generatedPassword =
-        Math.random().toString(36).slice(-8) +
+    const { email, name, photo } = req.body;
+
+    // Check if the email already exists in the database
+    let existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      // If the email doesn't exist, create a new user account for Facebook login
+      const generatedPassword = Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+      
       const newUser = new User({
-        username:
-          req.body.name.split(' ').join('').toLowerCase() +
-          Math.random().toString(36).slice(-8),
-        email: req.body.email,
+        username: name.split(' ').join('').toLowerCase() + Math.random().toString(36).slice(-8),
+        email,
         password: hashedPassword,
-        profilePicture: req.body.photo,
+        profilePicture: photo,
       });
-      await newUser.save();
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      const { password: hashedPassword2, ...rest } = newUser._doc;
-      const expiryDate = new Date(Date.now() + 3600000); // 1 hour
-      res
-        .cookie('access_token', token, {
-          httpOnly: true,
-          expires: expiryDate,
-        })
-        .status(200)
-        .json(rest);
+
+      existingUser = await newUser.save();
     }
+
+    // Generate token for the user and return user data
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
+    const { password: hashedPassword2, ...rest } = existingUser._doc;
+
+    const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+    res.cookie('access_token', token, { httpOnly: true, expires: expiryDate })
+      .status(200)
+      .json(rest);
   } catch (error) {
     next(error);
   }
 };
 
 
-  //Signout
 
-  export const signout = (req, res) => {
-    res.clearCookie('access_token').status(200).json('Signout success!')
-  }
+
+// Signout
+export const signout = (req, res) => {
+  res.clearCookie('access_token').status(200).json('Signout success!');
+};
+

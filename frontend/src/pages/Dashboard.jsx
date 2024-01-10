@@ -30,7 +30,7 @@ export default function Dashboard() {
   const confirmDelete = async () => {
     try {
       if (selectedStudent) {
-        const response = await axios.delete(`http://localhost:3000/api/student/delete/${selectedStudent._id}`);
+        const response = await axios.put(`http://localhost:3000/api/student/delete/${selectedStudent._id}`);
         if (response && response.status === 200) {
           setShowConfirmation(false);
           setSelectedStudent(null);

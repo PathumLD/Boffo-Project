@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { FacebookAuthProvider, signInWithPopup, getAuth } from 'firebase/auth';
 import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
@@ -6,18 +6,17 @@ import { signInSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function FbAuth() {
-  // ... (existing code remains unchanged)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const handleFacebookClick = async () => {
     try {
-      // Initialize the Facebook authentication provider
       const provider = new FacebookAuthProvider();
       const auth = getAuth(app);
 
-      // Open the Facebook authentication popup
       const result = await signInWithPopup(auth, provider);
 
-      // Make a POST request to your backend to handle Facebook authentication
       const res = await fetch('/api/auth/facebook', {
         method: 'POST',
         headers: {
@@ -27,29 +26,38 @@ export default function FbAuth() {
           name: result.user.displayName,
           email: result.user.email,
           photo: result.user.photoURL,
+          // You may also pass the credential: result.credential if needed in backend
         }),
       });
 
       const data = await res.json();
       console.log(data);
 
-      // Dispatch the user data to Redux state after successful authentication
       dispatch(signInSuccess(data));
 
-      // Redirect the user to the desired location (e.g., home page)
-      navigate('/');
+      navigate('/dashboard'); // Redirect after successful login
     } catch (error) {
-      console.log('Could not login with Facebook', error);
+      if (error.code === 'auth/account-exists-with-different-credential') {
+        setError('An account with this email already exists using a different sign-in method.');
+        // Implement code to handle account linking or inform the user about the situation
+        // You should allow the user to link accounts or choose an appropriate action
+      } else {
+        setError('Could not login with Facebook');
+        console.error('Could not login with Facebook', error);
+      }
     }
   };
 
   return (
-    <button
-      type='button'
-      onClick={handleFacebookClick}
-      className='p-3 text-white uppercase bg-blue-800 rounded-lg hover:opacity-95'
-    >
-      Continue with Facebook
-    </button>
+    <div>
+      {error && <p>{error}</p>}
+      <button
+        type='button'
+        onClick={handleFacebookClick}
+        className='p-3 text-white uppercase bg-blue-800 rounded-lg hover:opacity-95'
+      >
+        Continue with Facebook
+      </button>
+    </div>
   );
 }

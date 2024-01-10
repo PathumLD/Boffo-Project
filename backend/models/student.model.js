@@ -23,11 +23,12 @@ const studentSchema = new mongoose.Schema({
         type: String, 
         required: true, 
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    status: { 
+        type: Number, 
+        default: 1, 
     },
-}, {timestamps: true});
+    
+}, { timestamps: true });
 
 const Student = mongoose.model('Student', studentSchema);
 
