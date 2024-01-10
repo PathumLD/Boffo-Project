@@ -2,7 +2,6 @@ import express from 'express';
 import { createStudent, deleteStudent, getAllStudents, getStudentById, updateStudent } from '../controllers/student.controller.js';
 // import { authenticateUser } from '../utils/verifyUser.js';
 import { protect } from '../middleware/authMiddleware.js';
-import { verifyToken2 } from '../utils/verifyUser.js';
 
 
 const router = express.Router();

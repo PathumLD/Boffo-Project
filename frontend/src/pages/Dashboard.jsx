@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
   const [studentList, setStudentList] = useState([]);
@@ -8,24 +9,37 @@ export default function Dashboard() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [counter, setCounter] = useState(1);
 
+  const { currentUser } = useSelector((state) => state.user); // Get currentUser from Redux state
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
+   
     try {
       const response = await axios.get('http://localhost:3000/api/student/get');
       setStudentList(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+    if (!currentUser) {
+      return <navigate to="/sign-in" />;
+    }
   };
+  
 
   const handleDelete = (studentId) => {
     const studentToDelete = studentList.find((student) => student._id === studentId);
     setSelectedStudent(studentToDelete);
     setShowConfirmation(true);
   };
+  if (!currentUser) {
+    navigate('/sign-in'); // Use navigate('/sign-in') for redirection
+    return null; // Optionally return null or loading indicator
+  }
 
   const confirmDelete = async () => {
     try {
