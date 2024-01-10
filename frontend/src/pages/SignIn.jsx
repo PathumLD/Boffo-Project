@@ -63,7 +63,7 @@ export default function SignIn() {
           onChange = {handleChange}
         />
 
-        <button disabled={loading} className='py-2 font-bold text-white uppercase bg-blue-700 rounded-lg hover:opacity-90 disabled:opacity-50'>
+        <button disabled={loading} className='py-3 font-bold text-white uppercase bg-blue-700 rounded-lg hover:opacity-90 disabled:opacity-50'>
           {loading ? 'Loading...' : 'Sign In'}
           </button>
           <OAuth />

@@ -49,7 +49,7 @@ export default function FbAuth() {
   };
 
   return (
-    <div>
+    <>
       {error && <p>{error}</p>}
       <button
         type='button'
@@ -58,6 +58,6 @@ export default function FbAuth() {
       >
         Continue with Facebook
       </button>
-    </div>
+      </>
   );
 }
